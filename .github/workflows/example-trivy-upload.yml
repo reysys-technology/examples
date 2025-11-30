@@ -19,6 +19,6 @@ jobs:
           image-ref: nginx:1.22.1-alpine3.17
           format: json
           output: trivy-results.json
-      - uses: reysys-technology/setup-rscli-action@e7c90726298219d41cf23aec87fe094099065e57
+      - uses: reysys-technology/setup-rscli-action@2326dd017894024d5dc86ca43a82f1a29acdac3f
       - run: |
           rscli trivy upload-trivy-container-image-scan -f trivy-results.json
