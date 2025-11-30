@@ -1,0 +1,24 @@
+name: example/trivy/upload
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: { }
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: aquasecurity/trivy-action@0.33.1
+        with:
+          image-ref: nginx:1.22.1-alpine3.17
+          format: json
+          output: trivy-results.json
+      - uses: reysys-technology/setup-rscli-action@e7c90726298219d41cf23aec87fe094099065e57
+      - run: |
+          rscli trivy upload-trivy-container-image-scan -f trivy-results.json

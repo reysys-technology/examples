@@ -1,0 +1,4 @@
+### Custom.gitignore
+**/.claude
+**/.run
+**/.idea
