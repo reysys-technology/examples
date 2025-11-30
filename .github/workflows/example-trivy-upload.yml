@@ -6,6 +6,11 @@ on:
       - main
   workflow_dispatch: { }
 
+env:
+  RS_SECRET_ID: ${{ secrets.RS_SECRET_ID }}
+  RS_SECRET: ${{ secrets.RS_SECRET }}
+  RS_BASE_URL: ${{ secrets.RS_BASE_URL }}
+
 jobs:
   run:
     runs-on: ubuntu-latest
