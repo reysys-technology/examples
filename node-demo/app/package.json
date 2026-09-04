@@ -1,0 +1,14 @@
+{
+  "name": "node-demo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Intentionally vulnerable Node.js demo target for reysys runtime detection",
+  "license": "Apache-2.0",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "pg": "^8.23.0"
+  }
+}
