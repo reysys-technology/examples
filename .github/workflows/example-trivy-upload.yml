@@ -6,24 +6,27 @@ on:
       - main
   workflow_dispatch: { }
 
-env:
-  RS_SECRET_ID: ${{ secrets.RS_SECRET_ID }}
-  RS_SECRET: ${{ secrets.RS_SECRET }}
-  RS_BASE_URL: ${{ secrets.RS_BASE_URL }}
-
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 20
     permissions:
       contents: read
-      security-events: write
     steps:
-      - uses: aquasecurity/trivy-action@0.33.1
+      - name: Scan a container image with Trivy
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: nginx:1.22.1-alpine3.17
           format: json
           output: trivy-results.json
-      - uses: reysys-technology/setup-rscli-action@v1
-      - run: |
-          rscli trivy upload-trivy-container-image-scan -f trivy-results.json
+
+      - name: Install rscli
+        uses: reysys-technology/setup-rscli-action@v2
+        with:
+          version: '1.2.2'
+
+      - name: Upload the report to Reysys
+        run: rscli trivy upload-trivy-container-image-scan -f trivy-results.json
+        env:
+          RS_CLIENT_ID: ${{ secrets.RS_CLIENT_ID }}
+          RS_CLIENT_SECRET: ${{ secrets.RS_CLIENT_SECRET }}
